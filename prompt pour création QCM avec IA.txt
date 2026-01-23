@@ -1,0 +1,47 @@
+Je souhaite que les 26 points ci-dessous soient strictement respectés :
+1) Un QCM avec 4 réponses possibles. Un seul fichier : HTML/CSS/JS en plus et des données aléatoires (random) pour refaire l'exercice avec des données différentes. 
+2) Ajouter un bouton orange "Refaire un autre exercice du même type" qui sera situé sous le bouton "Valider mes réponses". 
+3) Pour les pourcentages, accepter une tolérance. S'il faut trouver 33,42%, accepter toute réponse supérieure ou égale à 33 % et inférieure ou égale à 34 %. 
+4) S'il faut trouver 141,30 €, accepter toute réponse supérieure ou égale à 141 € et inférieure ou égale à 142 €. 
+5) Le séparateur décimal se fera toujours avec le symbole ",". 
+6) Les intitulés et les montants dans les tableaux doivent être écrits en grand (26px, tout en gras). 
+7) Tous les montants fournis sont des nombres décimaux avec 2 décimales maximum (format 0 000,00 €, avec séparateur des milliers s'il y en a) et le séparateur décimal sera toujours le symbole ",". 
+8) Tous les taux sont exprimés en % avec 2 décimales (format 0,00 %)
+9) Écrire les réponses proposées en bleu (#0066cc)
+10) La zone de contenu utilisable est de 1200px - 120px (padding) = 1080px.
+11) Une fois que l'élève valide les réponses : 
+	- Quand une réponse est marquée comme correcte ou incorrecte, le texte deviendra blanc au lieu de rester bleu, ce qui améliore la lisibilité
+   - Si la réponse est correcte : la marquer en vert (#28a745) avec police blanche #FFFFFF et gras, et ajouter ✅. UNE SEULE bonne réponse est marquée en vert avec ✅ (celle qui figure dans les options proposées)
+   - Si la réponse est incorrecte : la marquer en rouge (#dc3545) avec police blanche #FFFFFF et gras, et ajouter ❌
+   - Également marquer la bonne réponse en vert avec ✅ quand l'élève se trompe avec police blanche #FFFFFF. UNE SEULE bonne réponse est marquée en vert avec police blanche #FFFFFF avec ✅ (celle qui figure dans les options proposées)
+   - Les autres réponses non sélectionnées restent inchangées
+   - Les symboles ✅ et ❌ ne doivent pas figurer dans le questionnaire au début de l'exercice. Les emojis ✅ et ❌ s'affichent maintenant après le texte de la réponse (celle qui figure dans les options proposées)
+12) Score à la fin 
+13) Le titre du document en vert (#23962) et les questions posées seront en écrites en violet (#6a0dad).  
+14) Police de caractères en gras : tableaux 26px, questions 26px, réponses 26px, titres 36px
+15) A la fin, donner le corrigé des réponses fausses et l'explication. Pour chaque mauvaise réponse, indiquer le résultat mais également les calculs qui conduisent au résultat.
+16) S'il y a un taux de T.V.A dans l'exercice (ce n'est pas toujours le cas), celui-ci sera toujours soit de 5,5 % soit de 20 %.
+17) Police de caractères en gras : tableaux 26px, questions 26px, réponses 26px, titres 36px
+18) Réponses en gras (font-weight: bold sur les labels)
+19) Thème : Calculs divers 
+20) Ajouter le code suivant dans le fichier (principe du "responsive design") :
+css/* Adaptation pour écrans plus petits (15 pouces et moins) */
+@media (max-width: 1500px) {
+  h1 { font-size: 32px !important; }
+  table, table th, table td { font-size: 22px !important; }
+  .question { font-size: 22px !important; }
+  label { font-size: 22px !important; }
+}
+Placez ce code juste avant la balise </style>
+Le !important est là pour s'assurer que ces règles prennent le dessus sur les styles existants
+21)Dès que l'élève appuie sur Entrée dans un champ :
+
+Si la réponse est correcte : le champ devient VERT avec ✅ et se désactive
+Si la réponse est incorrecte : le champ devient ROUGE avec ❌ mais l'élève peut à nouveau proposer une nouvelle réponse.
+
+L'élève doit pouvoir maintenant valider chaque réponse individuellement en appuyant sur Entrée, ou valider toutes les réponses d'un coup avec le bouton "Valider mes réponses".
+22) Effet au survol : changement de couleur et léger agrandissement (scale 1.02)
+23) Animation "pop" lors de la validation : les boutons s'agrandissent momentanément (jusqu'à 1.15x) puis reviennent à leur taille normale
+24) Bordure interactive : une bordure colorée apparaît au survol
+25) Curseur pointer : indique que les options sont cliquables
+26) La zone non écrite de l'écran (à gauche et à droite) sera en bleu (fond de l'écran de la partie non écrite 3F18D9)
