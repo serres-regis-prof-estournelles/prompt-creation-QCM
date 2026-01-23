@@ -20,8 +20,9 @@
 
 3. Informations complémentaires
    
-✅ Modifier la ligne 19 du prompt
-✅ L'idéal serait de fournir 2 pièces jointes lors de l'utilisation de ce prompt : un énoncé et un corrigé. L'IA comprendra tout de suite "la règle du jeu" et les QCM fournis seront de meilleure qualité
+✅ Modifier la ligne 19 du prompt pour l'adapter à vos besoins
+✅ L'idéal serait de fournir 2 pièces jointes lors de l'utilisation de ce prompt : un énoncé et un corrigé. L'IA comprendra tout de suite "la règle du jeu" et les QCM fournis seront de meilleure qualité et plus pertnents
 ✅ Pour les utilisateurs maîtrisant les bases du HTML et du CSS, possibilité de personnaliser ou de modifier le fichier dans le bloc notes (Penser à enregistrer le fichier en rajoutant l'extension .html [en dessous sélectionner "Tous les fichiers" avant d'enregistrer])
 ✅ Pour modifier le fichier, au lieu d'utiliser le bloc notes, il est préférable d'utiliser le logiciel notepad++
 
+👤 Auteur SERRES Régis Enseignant - Lycée Estournelles de Constant, La Flèche (72) - GitHub : @serres-regis-prof-estournelles
