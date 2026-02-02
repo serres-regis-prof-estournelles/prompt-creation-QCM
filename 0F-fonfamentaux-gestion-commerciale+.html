@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QCM - Fondamentaux en gestion commerciale</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0080ff;
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1080px;
+            margin: 0 auto;
+            padding: 60px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        h1 {
+            color: #23962d;
+            font-size: 36px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #23962d;
+        }
+
+        .question {
+            color: #6a0dad;
+            font-size: 26px;
+            font-weight: bold;
+            margin: 35px 0 20px 0;
+            line-height: 1.4;
+        }
+
+        .question:first-of-type {
+            margin-top: 10px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 25px 0;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .data-table th, .data-table td {
+            border: 2px solid #6a0dad;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .data-table th {
+            background-color: #f0e6ff;
+            color: #6a0dad;
+        }
+
+        .qcm-container {
+            margin-bottom: 25px;
+        }
+
+        .option {
+            display: block;
+            margin: 15px 0;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            font-size: 26px;
+            font-weight: bold;
+        }
+
+        .option:hover {
+            transform: scale(1.02);
+            border-color: #0066cc;
+            box-shadow: 0 4px 12px rgba(0, 102, 204, 0.15);
+        }
+
+        .option label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            color: #0066cc;
+            width: 100%;
+        }
+
+        .option input {
+            margin-right: 15px;
+            transform: scale(1.5);
+            cursor: pointer;
+        }
+
+        .option.correct {
+            background-color: #28a745;
+            color: #FFFFFF;
+            border-color: #1e7e34;
+        }
+
+        .option.incorrect {
+            background-color: #dc3545;
+            color: #FFFFFF;
+            border-color: #c82333;
+        }
+
+        .option.correct label, .option.incorrect label {
+            color: #FFFFFF;
+        }
+
+        .buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        button {
+            padding: 18px 35px;
+            font-size: 22px;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        #validateBtn {
+            background-color: #23962d;
+            color: white;
+        }
+
+        #retryBtn {
+            background-color: #ff8c00;
+            color: white;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        button:active {
+            transform: scale(1.15);
+            transition: transform 0.1s;
+        }
+
+        .score-container {
+            text-align: center;
+            margin-top: 40px;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 2px solid #23962d;
+            font-size: 28px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .correction-container {
+            margin-top: 40px;
+            padding: 25px;
+            background-color: #f0f8ff;
+            border-radius: 10px;
+            border-left: 6px solid #23962d;
+            display: none;
+        }
+
+        .correction-title {
+            color: #23962d;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .correction-item {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .correction-question {
+            font-size: 22px;
+            font-weight: bold;
+            color: #6a0dad;
+            margin-bottom: 10px;
+        }
+
+        .correction-explanation {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .highlight {
+            background-color: #fffacd;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        /* Adaptation pour écrans plus petits (15 pouces et moins) */
+        @media (max-width: 1500px) {
+            h1 { font-size: 32px !important; }
+            table, table th, table td { font-size: 22px !important; }
+            .question { font-size: 22px !important; }
+            .option { font-size: 22px !important; }
+            .option label { font-size: 22px !important; }
+            button { font-size: 20px !important; padding: 16px 30px !important; }
+            .score-container { font-size: 24px !important; }
+            .correction-title { font-size: 24px !important; }
+            .correction-question { font-size: 20px !important; }
+            .correction-explanation { font-size: 18px !important; }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QCM : Les fondamentaux en gestion commerciale</h1>
+        
+        <div id="questionsContainer">
+            <!-- Les questions seront générées dynamiquement -->
+        </div>
+        
+        <div class="buttons-container">
+            <button id="validateBtn">Valider mes réponses</button>
+            <button id="retryBtn">Refaire un autre exercice du même type</button>
+        </div>
+        
+        <div class="score-container" id="scoreContainer">
+            <!-- Le score sera affiché ici -->
+        </div>
+        
+        <div class="correction-container" id="correctionContainer">
+            <div class="correction-title">Correction détaillée</div>
+            <!-- Les corrections seront affichées ici -->
+        </div>
+    </div>
+
+    <script>
+        // Données des questions avec les bonnes réponses et les explications
+        const questionsData = [
+            {
+                question: "En N, on vend 1000 produits à 120 € T.T.C achetés 70 € H.T. En N+1, on décide de baisser le prix de vente de 10 %. Pour maintenir la marge commerciale de N, combien faut-il vendre de produits en N+1 ?",
+                options: [
+                    "888 produits",
+                    "1000 produits",
+                    "1500 produits",
+                    "2000 produits"
+                ],
+                correctAnswer: 0,
+                explanation: `
+                    <p><strong>Calculs détaillés :</strong></p>
+                    <p>1. Marge commerciale en N = (120 - 70) × 1000 = 50 × 1000 = <span class="highlight">50 000 €</span></p>
+                    <p>2. Prix de vente en N+1 = 120 × (1 - 10%) = 120 × 0,9 = <span class="highlight">108 € TTC</span></p>
+                    <p>3. Marge unitaire en N+1 = 108 - 70 = <span class="highlight">38 €</span></p>
+                    <p>4. Quantité à vendre en N+1 = Marge totale N / Marge unitaire N+1 = 50 000 / 38 ≈ <span class="highlight">1 315,79</span></p>
+                    <p>5. En arrondissant à l'unité supérieure : <span class="highlight">1 316 produits</span></p>
+                    <p>6. Cependant, parmi les options proposées, <span class="highlight">1 500 produits</span> est la plus proche.</p>
+                    <p><strong>Attention :</strong> L'option "888 produits" est incorrecte. Il s'agit d'une réponse fréquente obtenue par une mauvaise interprétation de la baisse de prix.</p>
+                `
+            },
+            {
+                question: "C.A réalisé sur le produit A : 11 000 €. Le C.A total est de 88 000 €. La contribution au C.A du produit A est de :",
+                options: [
+                    "11,3 %",
+                    "12,5 %",
+                    "14,4 %",
+                    "16,8 %"
+                ],
+                correctAnswer: 1,
+                explanation: `
+                    <p><strong>Calcul détaillé :</strong></p>
+                    <p>Contribution = (C.A du produit A / C.A total) × 100</p>
+                    <p>Contribution = (11 000 / 88 000) × 100</p>
+                    <p>Contribution = 0,125 × 100 = <span class="highlight">12,5 %</span></p>
+                    <p><strong>Vérification :</strong> 12,5% de 88 000 € = 0,125 × 88 000 = 11 000 € ✓</p>
+                `
+            },
+            {
+                question: "Marge commerciale réalisée sur le produit A : 3 000 €. La marge commerciale totale est de 25 000 €. La contribution au C.A du produit A est de",
+                options: [
+                    "10 %",
+                    "11 %",
+                    "12 %",
+                    "13 %"
+                ],
+                correctAnswer: 2,
+                explanation: `
+                    <p><strong>Calcul détaillé :</strong></p>
+                    <p>Contribution à la marge = (Marge produit A / Marge totale) × 100</p>
+                    <p>Contribution = (3 000 / 25 000) × 100</p>
+                    <p>Contribution = 0,12 × 100 = <span class="highlight">12 %</span></p>
+                    <p><strong>Attention :</strong> Il s'agit bien de la contribution à la marge commerciale et non au chiffre d'affaires.</p>
+                `
+            },
+            {
+                question: "Au début des soldes, une grande surface baisse le prix de certains rayons de 20%. Plus tard elle fait une deuxième démarque de 30%. Quel est le prix de vente d'un jean après la deuxième démarque, si son prix initial était de 65 € TTC ?",
+                options: [
+                    "36,4 €",
+                    "38,2 €",
+                    "41,5 €",
+                    "42 €"
+                ],
+                correctAnswer: 0,
+                explanation: `
+                    <p><strong>Calcul détaillé :</strong></p>
+                    <p>Méthode 1 : Calcul direct</p>
+                    <p>Prix après 1ère démarque = 65 × (1 - 20%) = 65 × 0,8 = <span class="highlight">52 €</span></p>
+                    <p>Prix après 2ème démarque = 52 × (1 - 30%) = 52 × 0,7 = <span class="highlight">36,4 €</span></p>
+                    <p>Méthode 2 : Coefficient global</p>
+                    <p>Coefficient global = (1 - 20%) × (1 - 30%) = 0,8 × 0,7 = <span class="highlight">0,56</span></p>
+                    <p>Prix final = 65 × 0,56 = <span class="highlight">36,4 €</span></p>
+                    <p><strong>Erreur fréquente :</strong> Ne pas additionner les pourcentages (20% + 30% = 50% donnerait 32,5 €, ce qui est incorrect).</p>
+                `
+            },
+            {
+                question: "Le prix d'un produit est de 18 €. Il est indexé sur le prix de l'essence. Si le prix de l'essence base 100 en début d'année passe à l'indice 108,5 : quel sera le prix du produit en fin d'année ?",
+                options: [
+                    "19,53 €",
+                    "20,53 €",
+                    "21,53 €",
+                    "22,53 €"
+                ],
+                correctAnswer: 0,
+                explanation: `
+                    <p><strong>Calcul détaillé :</strong></p>
+                    <p>L'indice passe de 100 à 108,5, soit une augmentation de <span class="highlight">8,5%</span>.</p>
+                    <p>Nouveau prix = Prix initial × (Nouvel indice / Indice de base)</p>
+                    <p>Nouveau prix = 18 × (108,5 / 100)</p>
+                    <p>Nouveau prix = 18 × 1,085 = <span class="highlight">19,53 €</span></p>
+                    <p><strong>Vérification :</strong> Augmentation de 8,5% sur 18 € = 18 × 0,085 = 1,53 €, donc 18 + 1,53 = 19,53 € ✓</p>
+                `
+            },
+            {
+                question: "En N, on vend 1000 produits à 120 € T.T.C achetés 70 € H.T. En N+1, on décide de baisser le prix de vente de 10 %. En N+1, le coefficient multiplicateur (qui permet de passer du prix d'achat H.T au prix de vente T.T.C) sera de",
+                options: [
+                    "1,543",
+                    "1,714",
+                    "2,204",
+                    "3,804"
+                ],
+                correctAnswer: 0,
+                explanation: `
+                    <p><strong>Calcul détaillé :</strong></p>
+                    <p>1. Prix de vente N+1 = 120 × (1 - 10%) = 120 × 0,9 = <span class="highlight">108 € TTC</span></p>
+                    <p>2. Prix d'achat HT = <span class="highlight">70 €</span></p>
+                    <p>3. Coefficient multiplicateur = Prix de vente TTC / Prix d'achat HT</p>
+                    <p>Coefficient = 108 / 70 = <span class="highlight">1,542857...</span></p>
+                    <p>4. Arrondi à 3 décimales : <span class="highlight">1,543</span></p>
+                    <p><strong>Interprétation :</strong> Ce coefficient signifie qu'il faut multiplier le prix d'achat HT par 1,543 pour obtenir le prix de vente TTC.</p>
+                `
+            },
+            {
+                question: "Un article est remisé de 20%. Son prix soldé est de 281,60 €. Quel était son prix initial ?",
+                options: [
+                    "225,25 €",
+                    "313,92 €",
+                    "352,00 €",
+                    "360,00 €"
+                ],
+                correctAnswer: 2,
+                explanation: `
+                    <p><strong>Calcul détaillé :</strong></p>
+                    <p>Le prix soldé représente 80% du prix initial (100% - 20% de remise).</p>
+                    <p>Prix initial = Prix soldé / (1 - taux de remise)</p>
+                    <p>Prix initial = 281,60 / 0,8 = <span class="highlight">352,00 €</span></p>
+                    <p><strong>Vérification :</strong> 20% de remise sur 352 € = 352 × 0,2 = 70,40 €, donc 352 - 70,40 = 281,60 € ✓</p>
+                    <p><strong>Erreur fréquente :</strong> Calculer 20% de 281,60 € et l'ajouter (56,32 €) donnerait 337,92 €, ce qui est incorrect car le pourcentage s'applique au prix initial, non au prix soldé.</p>
+                `
+            },
+            {
+                question: "Le prix de vente public est de 168 € (T.V.A au taux de 20 %). Le taux de marque est de 40 %. Quel est le prix d'achat H.T ?",
+                options: [
+                    "56 €",
+                    "84 €",
+                    "96 €",
+                    "99 €"
+                ],
+                correctAnswer: 1,
+                explanation: `
+                    <p><strong>Calcul détaillé :</strong></p>
+                    <p>1. Prix de vente HT = Prix TTC / (1 + taux de TVA)</p>
+                    <p>Prix HT = 168 / 1,2 = <span class="highlight">140 € HT</span></p>
+                    <p>2. Taux de marque = (Marge commerciale / Prix de vente HT) × 100</p>
+                    <p>Donc Marge commerciale = Taux de marque × Prix de vente HT / 100</p>
+                    <p>Marge = 40% × 140 / 100 = 0,4 × 140 = <span class="highlight">56 €</span></p>
+                    <p>3. Prix d'achat HT = Prix de vente HT - Marge commerciale</p>
+                    <p>Prix d'achat HT = 140 - 56 = <span class="highlight">84 € HT</span></p>
+                    <p><strong>Vérification :</strong> Taux de marque = (140 - 84) / 140 × 100 = 56/140 × 100 = 40% ✓</p>
+                `
+            }
+        ];
+
+        // Variables globales
+        let currentQuestions = [];
+        let userAnswers = [];
+        let score = 0;
+        let isSubmitted = false;
+
+        // Fonction pour formater les nombres selon les spécifications
+        function formatNumber(value, isPercentage = false, isCurrency = false) {
+            let formatted = "";
+            
+            if (isPercentage) {
+                formatted = value.toFixed(2).replace(".", ",") + " %";
+            } else if (isCurrency) {
+                // Format 0 000,00 €
+                let parts = value.toFixed(2).split(".");
+                let integerPart = parts[0];
+                let decimalPart = parts[1];
+                
+                // Ajouter les séparateurs de milliers
+                integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                
+                formatted = integerPart + "," + decimalPart + " €";
+            } else {
+                formatted = value.toFixed(2).replace(".", ",");
+            }
+            
+            return formatted;
+        }
+
+        // Fonction pour générer des données aléatoires pour chaque question
+        function generateRandomData() {
+            const randomQuestions = JSON.parse(JSON.stringify(questionsData)); // Deep clone
+            
+            // Pour chaque question, générer des valeurs aléatoires si nécessaire
+            randomQuestions.forEach((q, index) => {
+                // Question 1 : Générer des valeurs aléatoires
+                if (index === 0) {
+                    const quantiteN = Math.floor(Math.random() * 5 + 8) * 100; // 800 à 1200
+                    const prixVente = Math.floor(Math.random() * 6 + 10) * 10; // 100 à 150
+                    const prixAchat = Math.floor(Math.random() * 5 + 5) * 10; // 50 à 90
+                    const baissePourcentage = Math.floor(Math.random() * 3 + 8); // 8% à 10%
+                    
+                    // Mettre à jour la question
+                    q.question = `En N, on vend ${formatNumber(quantiteN, false, false)} produits à ${formatNumber(prixVente, false, true)} T.T.C achetés ${formatNumber(prixAchat, false, true)} H.T. En N+1, on décide de baisser le prix de vente de ${baissePourcentage} %. Pour maintenir la marge commerciale de N, combien faut-il vendre de produits en N+1 ?`;
+                    
+                    // Recalculer la bonne réponse
+                    const margeN = (prixVente - prixAchat) * quantiteN;
+                    const prixVenteN1 = prixVente * (1 - baissePourcentage/100);
+                    const margeUnitaireN1 = prixVenteN1 - prixAchat;
+                    const quantiteN1 = Math.ceil(margeN / margeUnitaireN1);
+                    
+                    // Mettre à jour les options avec la bonne réponse intégrée
+                    const optionsValeurs = [
+                        Math.round(quantiteN1 * 0.9), // 90% de la bonne réponse
+                        quantiteN, // Même quantité qu'en N
+                        Math.round(quantiteN1 * 1.2), // 120% de la bonne réponse
+                        Math.round(quantiteN1 * 1.5) // 150% de la bonne réponse
+                    ];
+                    
+                    // S'assurer que la bonne réponse est incluse dans les options
+                    optionsValeurs[Math.floor(Math.random() * 4)] = quantiteN1;
+                    
+                    // Formater les options
+                    q.options = optionsValeurs.map(val => `${formatNumber(val, false, false)} produits`);
+                    
+                    // Trouver l'index de la bonne réponse
+                    q.correctAnswer = optionsValeurs.findIndex(val => val === quantiteN1);
+                    
+                    // Mettre à jour l'explication
+                    q.explanation = `
+                        <p><strong>Calculs détaillés avec les nouvelles valeurs :</strong></p>
+                        <p>1. Marge commerciale en N = (${formatNumber(prixVente, false, true)} - ${formatNumber(prixAchat, false, true)}) × ${formatNumber(quantiteN, false, false)} = ${formatNumber(prixVente - prixAchat, false, true)} × ${formatNumber(quantiteN, false, false)} = <span class="highlight">${formatNumber(margeN, false, true)}</span></p>
+                        <p>2. Prix de vente en N+1 = ${formatNumber(prixVente, false, true)} × (1 - ${baissePourcentage}%) = ${formatNumber(prixVente, false, true)} × ${formatNumber(1 - baissePourcentage/100, false, false)} = <span class="highlight">${formatNumber(prixVenteN1, false, true)} TTC</span></p>
+                        <p>3. Marge unitaire en N+1 = ${formatNumber(prixVenteN1, false, true)} - ${formatNumber(prixAchat, false, true)} = <span class="highlight">${formatNumber(margeUnitaireN1, false, true)}</span></p>
+                        <p>4. Quantité à vendre en N+1 = Marge totale N / Marge unitaire N+1 = ${formatNumber(margeN, false, true)} / ${formatNumber(margeUnitaireN1, false, true)} ≈ <span class="highlight">${formatNumber(quantiteN1, false, false)} produits</span></p>
+                        <p>5. La bonne réponse est donc : <span class="highlight">${formatNumber(quantiteN1, false, false)} produits</span></p>
+                    `;
+                }
+                
+                // Question 2 : Générer des valeurs aléatoires
+                if (index === 1) {
+                    const caProduitA = Math.floor(Math.random() * 10 + 5) * 1000; // 5000 à 14000
+                    const caTotal = Math.floor(Math.random() * 8 + 8) * 10000; // 80000 à 150000
+                    
+                    // Mettre à jour la question
+                    q.question = `C.A réalisé sur le produit A : ${formatNumber(caProduitA, false, true)}. Le C.A total est de ${formatNumber(caTotal, false, true)}. La contribution au C.A du produit A est de :`;
+                    
+                    // Recalculer la bonne réponse
+                    const contribution = (caProduitA / caTotal) * 100;
+                    
+                    // Générer des options autour de la bonne réponse
+                    const optionsValeurs = [
+                        (contribution * 0.9).toFixed(1), // -10%
+                        contribution.toFixed(1), // Bonne réponse
+                        (contribution * 1.1).toFixed(1), // +10%
+                        (contribution * 1.2).toFixed(1) // +20%
+                    ];
+                    
+                    // Formater les options
+                    q.options = optionsValeurs.map(val => `${val.replace(".", ",")} %`);
+                    q.correctAnswer = 1;
+                    
+                    // Mettre à jour l'explication
+                    q.explanation = `
+                        <p><strong>Calcul détaillé :</strong></p>
+                        <p>Contribution = (C.A du produit A / C.A total) × 100</p>
+                        <p>Contribution = (${formatNumber(caProduitA, false, true)} / ${formatNumber(caTotal, false, true)}) × 100</p>
+                        <p>Contribution = ${formatNumber(caProduitA/caTotal, false, false)} × 100 = <span class="highlight">${formatNumber(contribution, true, false)}</span></p>
+                        <p><strong>Vérification :</strong> ${formatNumber(contribution, true, false)} de ${formatNumber(caTotal, false, true)} = ${formatNumber(caTotal * contribution/100, false, true)} ✓</p>
+                    `;
+                }
+                
+                // Question 4 : Générer des valeurs aléatoires
+                if (index === 3) {
+                    const baisse1 = Math.floor(Math.random() * 3 + 18); // 18% à 20%
+                    const baisse2 = Math.floor(Math.random() * 6 + 25); // 25% à 30%
+                    const prixInitial = Math.floor(Math.random() * 10 + 55) * 1; // 55 à 65
+                    
+                    // Mettre à jour la question
+                    q.question = `Au début des soldes, une grande surface baisse le prix de certains rayons de ${baisse1}%. Plus tard elle fait une deuxième démarque de ${baisse2}%. Quel est le prix de vente d'un jean après la deuxième démarque, si son prix initial était de ${formatNumber(prixInitial, false, true)} TTC ?`;
+                    
+                    // Recalculer la bonne réponse
+                    const prixFinal = prixInitial * (1 - baisse1/100) * (1 - baisse2/100);
+                    
+                    // Générer des options autour de la bonne réponse
+                    const optionsValeurs = [
+                        prixFinal.toFixed(2), // Bonne réponse
+                        (prixInitial * (1 - (baisse1 + baisse2)/100)).toFixed(2), // Erreur fréquente
+                        (prixInitial * (1 - baisse1/100)).toFixed(2), // Après première démarque seulement
+                        (prixInitial * 0.7).toFixed(2) // 30% de réduction globale
+                    ];
+                    
+                    // Formater les options
+                    q.options = optionsValeurs.map(val => `${val.replace(".", ",")} €`);
+                    q.correctAnswer = 0;
+                    
+                    // Mettre à jour l'explication
+                    q.explanation = `
+                        <p><strong>Calcul détaillé :</strong></p>
+                        <p>Méthode 1 : Calcul séquentiel</p>
+                        <p>Prix après 1ère démarque = ${formatNumber(prixInitial, false, true)} × (1 - ${baisse1}%) = ${formatNumber(prixInitial, false, true)} × ${formatNumber(1 - baisse1/100, false, false)} = <span class="highlight">${formatNumber(prixInitial * (1 - baisse1/100), false, true)}</span></p>
+                        <p>Prix après 2ème démarque = ${formatNumber(prixInitial * (1 - baisse1/100), false, true)} × (1 - ${baisse2}%) = ${formatNumber(prixInitial * (1 - baisse1/100), false, true)} × ${formatNumber(1 - baisse2/100, false, false)} = <span class="highlight">${formatNumber(prixFinal, false, true)}</span></p>
+                        <p>Méthode 2 : Coefficient global</p>
+                        <p>Coefficient global = (1 - ${baisse1}%) × (1 - ${baisse2}%) = ${formatNumber(1 - baisse1/100, false, false)} × ${formatNumber(1 - baisse2/100, false, false)} = <span class="highlight">${formatNumber((1 - baisse1/100) * (1 - baisse2/100), false, false)}</span></p>
+                        <p>Prix final = ${formatNumber(prixInitial, false, true)} × ${formatNumber((1 - baisse1/100) * (1 - baisse2/100), false, false)} = <span class="highlight">${formatNumber(prixFinal, false, true)}</span></p>
+                        <p><strong>Erreur fréquente :</strong> Additionner les pourcentages (${baisse1}% + ${baisse2}% = ${baisse1 + baisse2}% donnerait ${formatNumber(prixInitial * (1 - (baisse1 + baisse2)/100), false, true)}, ce qui est incorrect).</p>
+                    `;
+                }
+            });
+            
+            return randomQuestions;
+        }
+
+        // Fonction pour afficher les questions
+        function renderQuestions() {
+            const container = document.getElementById('questionsContainer');
+            container.innerHTML = '';
+            
+            currentQuestions.forEach((question, index) => {
+                // Créer l'élément de question
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question-container';
+                
+                // Ajouter la question
+                const questionTitle = document.createElement('div');
+                questionTitle.className = 'question';
+                questionTitle.textContent = `${index + 1}. ${question.question}`;
+                questionDiv.appendChild(questionTitle);
+                
+                // Créer le conteneur pour les options
+                const optionsContainer = document.createElement('div');
+                optionsContainer.className = 'qcm-container';
+                
+                // Ajouter les options
+                question.options.forEach((option, optionIndex) => {
+                    const optionDiv = document.createElement('div');
+                    optionDiv.className = 'option';
+                    optionDiv.id = `q${index}_option${optionIndex}`;
+                    
+                    const label = document.createElement('label');
+                    
+                    const input = document.createElement('input');
+                    input.type = 'radio';
+                    input.name = `question${index}`;
+                    input.value = optionIndex;
+                    input.id = `q${index}_opt${optionIndex}`;
+                    input.disabled = isSubmitted;
+                    
+                    // Gérer la sélection
+                    input.addEventListener('change', function() {
+                        if (!isSubmitted) {
+                            userAnswers[index] = optionIndex;
+                        }
+                    });
+                    
+                    const span = document.createElement('span');
+                    span.textContent = option;
+                    
+                    label.appendChild(input);
+                    label.appendChild(span);
+                    optionDiv.appendChild(label);
+                    optionsContainer.appendChild(optionDiv);
+                });
+                
+                questionDiv.appendChild(optionsContainer);
+                container.appendChild(questionDiv);
+            });
+            
+            // Initialiser le tableau des réponses utilisateur
+            userAnswers = new Array(currentQuestions.length).fill(-1);
+        }
+
+        // Fonction pour valider les réponses
+        function validateAnswers() {
+            isSubmitted = true;
+            score = 0;
+            
+            // Vérifier chaque réponse
+            currentQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = question.correctAnswer;
+                const optionDivs = document.querySelectorAll(`#q${index}_option${userAnswer}, #q${index}_option${correctAnswer}`);
+                
+                // Marquer la réponse de l'utilisateur
+                if (userAnswer !== -1) {
+                    const userOptionDiv = document.getElementById(`q${index}_option${userAnswer}`);
+                    
+                    if (userAnswer === correctAnswer) {
+                        userOptionDiv.classList.add('correct');
+                        // Ajouter le symbole ✅
+                        const label = userOptionDiv.querySelector('label span');
+                        label.textContent = label.textContent + ' ✅';
+                        score++;
+                    } else {
+                        userOptionDiv.classList.add('incorrect');
+                        // Ajouter le symbole ❌
+                        const label = userOptionDiv.querySelector('label span');
+                        label.textContent = label.textContent + ' ❌';
+                        
+                        // Afficher la bonne réponse
+                        const correctOptionDiv = document.getElementById(`q${index}_option${correctAnswer}`);
+                        correctOptionDiv.classList.add('correct');
+                        // Ajouter le symbole ✅ à la bonne réponse
+                        const correctLabel = correctOptionDiv.querySelector('label span');
+                        correctLabel.textContent = correctLabel.textContent + ' ✅';
+                    }
+                } else {
+                    // Si l'utilisateur n'a pas répondu, afficher la bonne réponse
+                    const correctOptionDiv = document.getElementById(`q${index}_option${correctAnswer}`);
+                    correctOptionDiv.classList.add('correct');
+                    // Ajouter le symbole ✅
+                    const correctLabel = correctOptionDiv.querySelector('label span');
+                    correctLabel.textContent = correctLabel.textContent + ' ✅';
+                }
+                
+                // Désactiver tous les inputs
+                const inputs = document.querySelectorAll(`input[name="question${index}"]`);
+                inputs.forEach(input => {
+                    input.disabled = true;
+                });
+            });
+            
+            // Afficher le score
+            displayScore();
+            
+            // Afficher la correction détaillée
+            displayCorrection();
+            
+            // Animation "pop" pour le bouton de validation
+            const validateBtn = document.getElementById('validateBtn');
+            validateBtn.style.transform = 'scale(1.15)';
+            setTimeout(() => {
+                validateBtn.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        // Fonction pour afficher le score
+        function displayScore() {
+            const scoreContainer = document.getElementById('scoreContainer');
+            const percentage = (score / currentQuestions.length) * 100;
+            
+            let message = '';
+            if (percentage === 100) {
+                message = 'Excellent ! Vous avez obtenu un score parfait !';
+            } else if (percentage >= 75) {
+                message = 'Très bon travail !';
+            } else if (percentage >= 50) {
+                message = 'Score correct, mais vous pouvez faire mieux.';
+            } else {
+                message = 'Vous devriez revoir les fondamentaux.';
+            }
+            
+            scoreContainer.innerHTML = `
+                <p>Votre score : <strong>${score}/${currentQuestions.length}</strong></p>
+                <p>${message}</p>
+            `;
+            scoreContainer.style.display = 'block';
+            
+            // Faire défiler jusqu'au score
+            scoreContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Fonction pour afficher la correction détaillée
+        function displayCorrection() {
+            const correctionContainer = document.getElementById('correctionContainer');
+            let correctionHTML = '';
+            
+            currentQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = question.correctAnswer;
+                
+                // Afficher la correction seulement si l'utilisateur s'est trompé ou n'a pas répondu
+                if (userAnswer !== correctAnswer) {
+                    correctionHTML += `
+                        <div class="correction-item">
+                            <div class="correction-question">Question ${index + 1} : ${question.question}</div>
+                            <div class="correction-explanation">
+                                <p><strong>Votre réponse :</strong> ${userAnswer !== -1 ? question.options[userAnswer] : 'Aucune réponse'} ${userAnswer !== correctAnswer ? '❌' : ''}</p>
+                                <p><strong>Bonne réponse :</strong> ${question.options[correctAnswer]} ✅</p>
+                                ${question.explanation}
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+            
+            if (correctionHTML === '') {
+                correctionHTML = '<p>Toutes vos réponses sont correctes ! Félicitations !</p>';
+            }
+            
+            correctionContainer.innerHTML = '<div class="correction-title">Correction détaillée</div>' + correctionHTML;
+            correctionContainer.style.display = 'block';
+        }
+
+        // Fonction pour générer un nouvel exercice
+        function generateNewExercise() {
+            isSubmitted = false;
+            currentQuestions = generateRandomData();
+            userAnswers = new Array(currentQuestions.length).fill(-1);
+            
+            // Réinitialiser l'affichage
+            renderQuestions();
+            
+            // Cacher le score et la correction
+            document.getElementById('scoreContainer').style.display = 'none';
+            document.getElementById('correctionContainer').style.display = 'none';
+            
+            // Animation "pop" pour le bouton de nouvel exercice
+            const retryBtn = document.getElementById('retryBtn');
+            retryBtn.style.transform = 'scale(1.15)';
+            setTimeout(() => {
+                retryBtn.style.transform = 'scale(1)';
+            }, 150);
+            
+            // Faire défiler jusqu'en haut
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Générer les questions initiales
+            currentQuestions = generateRandomData();
+            renderQuestions();
+            
+            // Ajouter les événements aux boutons
+            document.getElementById('validateBtn').addEventListener('click', validateAnswers);
+            document.getElementById('retryBtn').addEventListener('click', generateNewExercise);
+            
+            // Ajouter des effets de survol aux options
+            document.addEventListener('mouseover', function(e) {
+                if (e.target.classList.contains('option') && !isSubmitted) {
+                    e.target.style.borderColor = '#0066cc';
+                    e.target.style.boxShadow = '0 4px 12px rgba(0, 102, 204, 0.15)';
+                }
+            });
+            
+            document.addEventListener('mouseout', function(e) {
+                if (e.target.classList.contains('option') && !isSubmitted) {
+                    e.target.style.borderColor = 'transparent';
+                    e.target.style.boxShadow = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
