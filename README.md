@@ -2,7 +2,7 @@
 #
 ⚙️ Caractéristiques techniques principales
 #
-► Ce prompt fonctionne très bien avec les IA **Deepseek** et **Claude.a**i (un **compte Google** permet d'y accéder **gratuitement**)
+► Ce prompt fonctionne très bien avec les IA **Deepseek** et **Claude.ai** (un **compte Google** permet d'y accéder **gratuitement**)
 #
 ► **AUCUNE COMPÉTENCE EN PROGRAMMATION N'EST REQUISE**
 #
@@ -39,4 +39,4 @@
 ✅ Pour modifier le fichier, au lieu d'utiliser le bloc notes, il est possible d'utiliser le logiciel **Notepad++** ► 
 https://notepad-plus-plus.org/
 #
-👤 Auteur : SERRES Régis Enseignant - Lycée Estournelles de Constant, La Flèche (72) - GitHub : @serres-regis-prof-estournelles
+👤 Auteur : SERRES Régis - Enseignant - Lycée Estournelles de Constant, La Flèche (72) - GitHub : @serres-regis-prof-estournelles
